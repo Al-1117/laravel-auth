@@ -20,3 +20,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// ROUTES ADMIN
+
+// Prefisso nell'URL
+Route::prefix('admin')
+// namespace della cartella nella struttura del progetto
+  ->namespace('Admin')
+  // Solo per utenti autenticati
+  ->middleware('auth')
+
+  ->group(function(){
+    // Route di collegamento al controller
+    Route::resource('posts', 'PostController');
+
+});
