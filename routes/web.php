@@ -35,3 +35,7 @@ Route::prefix('admin')
     Route::resource('posts', 'PostController');
 
 });
+
+Route::get('/guest/posts/index', 'PostController@index');
+
+Route::get('/guest/posts/{post}', 'PostController@show')->name('guest.posts.show');
