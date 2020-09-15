@@ -29,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+      return view('admin.posts.create');
     }
 
     /**
@@ -40,7 +40,30 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      // if (Auth::check()) {
+
+        $data_request = $request->all();
+        // $data_request->$this->validate();
+
+        $path = $request->file('image')->store('images','public');
+
+        $new_post = new Post();
+        $new_post->title = $data_request['title'];
+        $new_post->content = $data_request['content'];
+        $new_post->user_id = Auth::id();
+        $new_post->image = $path;
+        $new_post->save();
+
+        return redirect()->route('guest.posts.show', $new_post);
+      //   } else {
+      //     "Devi essere effettuare l'accesso per creare un nuovo post"
+      //   }
+      // }
+      // endif
+
+
+
     }
 
     /**
