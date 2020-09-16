@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 use App\User;
+use App\Mail\PostCreateMail;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -43,8 +45,9 @@ class PostController extends Controller
 
       // if (Auth::check()) {
 
+        $request->validate($this->validateData());
+
         $data_request = $request->all();
-        // $data_request->$this->validate();
 
         $path = $request->file('image')->store('images','public');
 
@@ -54,6 +57,11 @@ class PostController extends Controller
         $new_post->user_id = Auth::id();
         $new_post->image = $path;
         $new_post->save();
+
+        // Invio una nuova mail
+
+        Mail::to($new_post->user->email)->send(new PostCreateMail);
+
 
         return redirect()->route('guest.posts.show', $new_post);
       //   } else {
@@ -110,5 +118,14 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // FUNCTIONS
+
+    public function validateData(){
+      return [
+        'title' => 'required|max:255',
+        'content' => 'required|min:20',
+      ];
     }
 }
