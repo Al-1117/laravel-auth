@@ -5,7 +5,7 @@
 @section('content')
   <div class="container">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 my_index">
 
         <h3>Utente attualmente loggato: <em>{{$user->name}}</em></h3>
 
@@ -14,20 +14,25 @@
         <h2>Elenco dei posts:</h2>
         <ul>
           @foreach ($posts as $post)
-            <li>{{$post->title}} di: <strong>{{$post->user->name}}</strong>
+            <li class="post">
+              <span class="post_title"><em>{{$post->title}}</em>
+              </span> di: <strong>{{$post->user->name}}</strong>
 
-              {{-- Visualizzazione Dettagli post --}}
-              <a class="btn btn-outline-info btn-sm" href="{{route('guest.posts.show', $post)}}"> Vedi dettagli</a>
+              <div class="int_buttons">
 
-              {{-- Modifca post --}}
-              <a href="{{route('posts.edit', $post)}}">Modifica</a>
+                {{-- Visualizzazione Dettagli post --}}
+                <a class="btn btn-success details" href="{{route('guest.posts.show', $post)}}"> Vedi dettagli</a>
+                {{-- Modifca post --}}
+                <a class="btn btn-outline-info" href="{{route('posts.edit', $post)}}">Modifica</a>
+                {{-- Cancellazione post --}}
+                <form class="delete" action="{{route('posts.destroy', $post)}}" method="post">
+                  @csrf
+                  @method('DELETE')
+                  <input class="btn btn-outline-danger" type="submit" value="Elimina">
+                </form>
+              </div>
 
-              {{-- Cancellazione post --}}
-              <form class="delete" action="{{route('posts.destroy', $post)}}" method="post">
-                @csrf
-                @method('DELETE')
-                <input type="submit" value="Elimina">
-              </form>
+              <hr>
 
             </li>
 

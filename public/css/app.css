@@ -10899,3 +10899,28 @@ a.text-dark:focus {
   }
 }
 
+.my_index .post {
+  display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid black;
+}
+
+.my_index .post .post_title {
+  font-size: 1.3rem;
+  text-decoration: underline;
+}
+
+.my_index .post * {
+  padding: 0 15px;
+}
+
+.my_index .post .int_buttons {
+  display: flex;
+}
+
+.my_index .post .int_buttons * {
+  display: flex;
+  height: 35px;
+  margin: 0 5px;
+}
+
